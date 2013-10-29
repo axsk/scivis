@@ -10,7 +10,7 @@ import jv.viewer.PvViewer;
 @SuppressWarnings("serial")
 public class MinJV extends Applet {
 
-    static String DEFAULTGEO = "models/byu/Cow_5804.byu";
+    static String DEFAULTGEO = "Cow_5804.byu";
 
     public Frame jvFrame;
     public PvViewer jvViewer;
