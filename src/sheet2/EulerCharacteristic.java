@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
 
+@SuppressWarnings("serial")
+
 public class EulerCharacteristic extends MinJV implements ActionListener {
 
     public static void main(String args[]) {
