@@ -1,3 +1,3 @@
 jar: MinJV.java
-	javac MinJV.java
-	jar cvfm MinJV.jar manifest.txt MinJV.class
+	javac *.java
+	jar cvfm MinJV.jar manifest.txt MinJV.class CB.class
