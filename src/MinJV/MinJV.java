@@ -9,7 +9,7 @@ import jv.viewer.PvViewer;
 
 public class MinJV extends Applet {
 
-    static String DEFAULTGEO = "models/primitive/Torus_200.byu";
+    static String DEFAULTGEO = "models\\primitive\\Torus_200.byu";
 
     public Frame jvFrame;
     public PvViewer jvViewer;
