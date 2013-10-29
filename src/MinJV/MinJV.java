@@ -29,7 +29,7 @@ public class MinJV extends Applet {
         jvFrame.setVisible(true);
     }
 
-    public loadModel(String modelFile) {
+    public void loadModel(String modelFile) {
         if (modelFile == null) {
             modelFile = PsConfig.getCodeBase() + DEFAULTGEO;
         }
