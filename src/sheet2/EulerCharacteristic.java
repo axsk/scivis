@@ -1,4 +1,4 @@
-package exercises;
+package sheet2;
 
 import MinJV.MinJV;
 import java.awt.BorderLayout;
@@ -9,10 +9,10 @@ import java.awt.event.ActionListener;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
 
-public class Euler extends MinJV implements ActionListener {
+public class EulerCharacteristic extends MinJV implements ActionListener {
 
     public static void main(String args[]) {
-        Euler app = new Euler();
+        EulerCharacteristic app = new EulerCharacteristic();
 
         Button button = new Button("Colorize and Euler");
         button.addActionListener(app);
