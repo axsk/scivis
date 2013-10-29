@@ -1,0 +1,6 @@
+# Java-Abfall
+*.class
+*.jar
+
+# Vim-Abfall
+.*.sw[po]

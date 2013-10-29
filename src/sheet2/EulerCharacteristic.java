@@ -1,49 +1,59 @@
 package sheet2;
 
-import MinJV.MinJV;
+import MinJV.*;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
 
-public class EulerCharacteristic extends MinJV implements ActionListener {
+@SuppressWarnings("serial")
+public class EulerCharacteristic extends MinJV {
 
     public static void main(String args[]) {
         EulerCharacteristic app = new EulerCharacteristic();
-        
-        if (args.length != 0 )
+        if (args.length != 0) {
             app.loadModel(args[0]);
-        else
-            app.loadModel(null);        
-                
-        Button button = new Button("Colorize and Euler");
-        button.addActionListener(app);
-        app.add(button, BorderLayout.SOUTH);
-        app.jvFrame.pack();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        PgElementSet geo = (PgElementSet) this.jvViewer.getCurrentProject().getGeometry();
-        if (geo != null) {
-            // colorize
-            Color colors[] = new Color[2];
-            colors[0] = Color.WHITE;
-            colors[1] = Color.BLUE;
-            for (int i = 0; i <= geo.getNumElements() - 1; i++) {
-                geo.setElementColor(i, colors[i % 2]);
-            }
-            geo.showElementColors(true);
-            geo.update(null);
-            // euler
-            int v = geo.getNumVertices();
-            int f = geo.getNumElements();
-            int e = f * 3 / 2;
-            PsDebug.message(v + " vertices, " + e + " edges, " + f + " faces. thus the euler char. is " + (v - e + f));
+        } else {
+            app.loadModel(null);
         }
+
     }
 
+    public EulerCharacteristic() {
+        addButton();
+    }
+
+    private void addButton() {
+        final Button button = new Button("Colorize and Euler");
+        final EulerCharacteristic outer = this;
+        button.addActionListener(new CB() {
+            public void run(ActionEvent ev) {
+                PgElementSet geo = (PgElementSet) outer.jvViewer.getCurrentProject().getGeometry();
+
+                if (geo == null) {
+                    return;
+                }
+
+                // Colorize Shape
+                Color colors[] = new Color[2];
+                colors[0] = Color.WHITE;
+                colors[1] = Color.BLUE;
+                for (int i = 0; i <= geo.getNumElements() - 1; i++) {
+                    geo.setElementColor(i, colors[i % 2]);
+                }
+                geo.showElementColors(true);
+                geo.update(null);
+
+                // Compute Euler Characteristic
+                int v = geo.getNumVertices();
+                int f = geo.getNumElements();
+                int e = f * 3 / 2;
+                PsDebug.message(v + " vertices, " + e + " edges, " + f + " faces. thus the euler char. is " + (v - e + f));
+            }
+        });
+        this.add(button, BorderLayout.SOUTH);
+        this.jvFrame.pack();
+    }
 }
