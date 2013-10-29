@@ -23,8 +23,6 @@ public class MinJV extends Applet {
         jvViewer.addProject(project);
         jvViewer.selectProject(project);
 
-        loadModel(null);
-
         this.setLayout(new BorderLayout());
         this.add(jvViewer.getDisplay().getCanvas(), BorderLayout.CENTER);
         jvFrame.pack();

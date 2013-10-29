@@ -13,7 +13,12 @@ public class EulerCharacteristic extends MinJV implements ActionListener {
 
     public static void main(String args[]) {
         EulerCharacteristic app = new EulerCharacteristic();
-
+        
+        if (args.length != 0 )
+            app.loadModel(args[0]);
+        else
+            app.loadModel(null);        
+                
         Button button = new Button("Colorize and Euler");
         button.addActionListener(app);
         app.add(button, BorderLayout.SOUTH);
