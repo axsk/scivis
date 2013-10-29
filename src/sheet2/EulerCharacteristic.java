@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
+import jv.vecmath.PiVector;
 
 @SuppressWarnings("serial")
 public class EulerCharacteristic extends MinJV {
@@ -49,7 +50,18 @@ public class EulerCharacteristic extends MinJV {
                 // Compute Euler Characteristic
                 int v = geo.getNumVertices();
                 int f = geo.getNumElements();
-                int e = f * 3 / 2;
+
+                PiVector[] neigh = geo.getNeighbours();
+                int e = 0;
+                int doubled = 0; // increased by one for each edge that will be counted twice
+                for (int i = 0; i < neigh.length; i++) {
+                    e += neigh[i].getSize();
+                    for(int j = 0; j < neigh[i].getSize(); j++)
+                        if(neigh[i].m_data[j] != -1)
+                            doubled++;
+                }
+                e -= doubled/2;
+
                 PsDebug.message(v + " vertices, " + e + " edges, " + f + " faces. thus the euler char. is " + (v - e + f));
             }
         });
