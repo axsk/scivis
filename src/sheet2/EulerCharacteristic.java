@@ -1,21 +1,12 @@
 package sheet2;
 
-import MinJV.MinJV;
+import MinJV.*;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
-
-@SuppressWarnings("serial")
-abstract class CB implements ActionListener {
-    abstract public void run(ActionEvent ev);
-    public void actionPerformed(ActionEvent ev) {
-        run(ev);
-    }
-}
 
 @SuppressWarnings("serial")
 public class EulerCharacteristic extends MinJV {
