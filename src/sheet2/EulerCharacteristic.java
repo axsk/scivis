@@ -49,7 +49,7 @@ public class EulerCharacteristic extends MinJV {
                 // Compute Euler Characteristic
                 int v = geo.getNumVertices();
                 int f = geo.getNumElements();
-                int e = geo.getNumEdges();
+                int e = f * 3 / 2;
                 PsDebug.message(v + " vertices, " + e + " edges, " + f + " faces. thus the euler char. is " + (v - e + f));
             }
         });
