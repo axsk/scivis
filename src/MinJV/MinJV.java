@@ -2,30 +2,48 @@ package MinJV;
 
 import java.applet.Applet;
 import java.awt.*;
+import jv.loader.PgLoader;
+import jv.object.PsConfig;
 import jv.project.PjProject;
 import jv.viewer.PvViewer;
 
 public class MinJV extends Applet {
+
+    static String DEFAULTGEO = "models/primitive/Torus_200.byu";
+
     public Frame jvFrame;
     public PvViewer jvViewer;
-    
-    public MinJV()
-    {
+
+    public MinJV(String modelFile) {
+
         jvFrame = new jv.object.PsMainFrame(this, null);
         jvViewer = new PvViewer(this, jvFrame);
-        
+
         PjProject project = new PjProject("testprojekt");
         jvViewer.addProject(project);
         jvViewer.selectProject(project);
 
+        loadModel(null);
+
         this.setLayout(new BorderLayout());
         this.add(jvViewer.getDisplay().getCanvas(), BorderLayout.CENTER);
         jvFrame.pack();
-        //frame.setSize(800, 600);
         jvFrame.setVisible(true);
     }
-    
+
+    public loadModel(String modelFile) {
+        if (modelFile == null) {
+            modelFile = PsConfig.getCodeBase() + DEFAULTGEO;
+        }
+        PgLoader loader = new PgLoader();
+        jvViewer.getCurrentProject().addGeometry((loader.loadGeometry(modelFile))[0]);
+    }
+
+    public MinJV() {
+        this(null);
+    }
+
     public static void main(String args[]) {
-        new MinJV();
+        new MinJV(null);
     }
 }
