@@ -15,11 +15,13 @@ public class EulerCharacteristic extends MinJV implements ActionListener {
 
     public static void main(String args[]) {
         EulerCharacteristic app = new EulerCharacteristic();
+    }
 
+    public EulerCharacteristic() {
         Button button = new Button("Colorize and Euler");
-        button.addActionListener(app);
-        app.add(button, BorderLayout.SOUTH);
-        app.jvFrame.pack();
+        button.addActionListener(this);
+        this.add(button, BorderLayout.SOUTH);
+        this.jvFrame.pack();
     }
 
     public void actionPerformed(ActionEvent event) {
