@@ -50,8 +50,25 @@ public class EulerCharacteristic extends MinJV {
                 // Compute Euler Characteristic
                 int v = geo.getNumVertices();
                 int f = geo.getNumElements();
+                int e = geo.getNumEdges();
+                
+                PiVector elements[] = geo.getElements();
+                
+                int mf = elements.length;
+                int me = 3 * mf / 2;
+                
+                int mv = 0;
+                int j = 0;
+                for (int i = 0; i < mf; i++){
+                	for (j = 0; j < elements[i].getSize(); j++){
+                		if (elements[i].m_data[j] > mv){
+                			mv = elements[i].m_data[j];
+                		}
+                	}
+                }
+                mv += 1;
 
-                PiVector[] neigh = geo.getNeighbours();
+                /*PiVector[] neigh = geo.getNeighbours();
                 int e = 0;
                 int doubled = 0; // increased by one for each edge that will be counted twice
                 for (int i = 0; i < neigh.length; i++) {
@@ -61,6 +78,9 @@ public class EulerCharacteristic extends MinJV {
                             doubled++;
                 }
                 e -= doubled/2;
+                */
+                
+                PsDebug.message("NewVertices: " + mv + " NewEdges: " + me + " NewFaces: " + mf);
 
                 PsDebug.message(v + " vertices, " + e + " edges, " + f + " faces. thus the euler char. is " + (v - e + f));
             }
