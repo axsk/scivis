@@ -2,21 +2,17 @@ package sheet3;
 
 
 import MinJV.*;
-import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import jv.geom.PgElementSet;
-import jv.object.PsDebug;
 import jv.object.PsObject;
 import jv.object.PsPanel;
 import jv.vecmath.PiVector;
 import jvx.geom.PgVertexStar;
-import java.awt.Color;
 
 @SuppressWarnings("serial")
 
@@ -86,7 +82,6 @@ public class StarsNLinks extends MinJV{
 	        }
 		}
 		
-		//PsDebug.message(stare.toString());
 		geo.showElementColors(true);
         geo.update(null);
 	}
@@ -99,7 +94,6 @@ public class StarsNLinks extends MinJV{
 			//getting the star
 			star.makeVertexStar(geo, v, -1);
 			int[] link = star.getLink().getEntries();
-			PsDebug.message(link.toString());
 			
 			//painting the star
 	        for (int vec: link) {
@@ -112,7 +106,6 @@ public class StarsNLinks extends MinJV{
 	}
 	public void paintNeighbor(){
 		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
-		PiVector[] elements = geo.getElements();
 		for (int i = 0; i < geo.getNumElements(); i++){
 				if(geo.hasTagElement(i, PsObject.IS_SELECTED)){
 					geo.setElementColor(i, Color.GREEN);
@@ -127,9 +120,6 @@ public class StarsNLinks extends MinJV{
         geo.update(null);
 		
 	}
-	
-	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
-	//private PgVectorField selction = geo.getSelectedVectorField(); 
 	
 
 }
