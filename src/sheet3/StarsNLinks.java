@@ -70,19 +70,22 @@ public class StarsNLinks extends MinJV{
 	}
 	
 	public void painStar(){
-		//getting the star
 		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
 		int[] verts = geo.getMarkedVertices();
 		PgVertexStar star = new PgVertexStar();
-		star.makeVertexStar(geo, verts[0], -1);
-		int[] stare = star.getElement().getEntries();
 		
-		//painting the star
-        for (int vec: stare) {
-             geo.setElementColor(vec, Color.YELLOW);
-        }
+		for(int v:verts){
+			//getting the star
+			star.makeVertexStar(geo, v, -1);
+			int[] stare = star.getElement().getEntries();
+			
+			//painting the star
+	        for (int vec: stare) {
+	             geo.setElementColor(vec, Color.YELLOW);
+	        }
+		}
 		
-		PsDebug.message(stare.toString());
+		//PsDebug.message(stare.toString());
 		geo.showElementColors(true);
         geo.update(null);
 	}
