@@ -5,6 +5,8 @@ import MinJV.*;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
@@ -31,15 +33,22 @@ public class StarsNLinks extends MinJV {
 	public StarsNLinks(){
 		PsPanel pjip = this.project.getInfoPanel();
 		pjip.addTitle("Stars 'n' Links");
+		
+		PsPanel test = new PsPanel();
+		add(test);
+		
+		Panel losButtons = new Panel(new FlowLayout(FlowLayout.CENTER));
+		
+		Button Star = new Button("Star");
+		losButtons.add(Star);
+		//Star.addActionListener(null);
+		
+		pjip.add(losButtons);
 		pjip.addLine(1);
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
 	//private PgVectorField selction = geo.getSelectedVectorField(); 
 	
-	private Button addButton(String name) {
-		final Button button = new Button(name);
-		return button;
-	}
 
 }

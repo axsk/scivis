@@ -9,7 +9,6 @@ import jv.object.PsPanel;
 import jv.object.PsViewerIf;
 import jv.project.PjProject;
 import jv.viewer.PvViewer;
-import jv.project.PjProject_IP;
 
 @SuppressWarnings("serial")
 public class MinJV extends Applet {
