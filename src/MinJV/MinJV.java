@@ -18,13 +18,13 @@ public class MinJV extends Applet {
 
     public Frame jvFrame;
     public PvViewer jvViewer;
+    public PjProject project = new PjProject("this");
 
     public MinJV(String modelFile) {
 
         jvFrame = new jv.object.PsMainFrame(this, null);
         jvViewer = new PvViewer(this, jvFrame);
-
-        PjProject project = new PjProject("this");
+        
         jvViewer.addProject(project);
         jvViewer.selectProject(project);
         
@@ -36,6 +36,9 @@ public class MinJV extends Applet {
         this.add(jvViewer.getPanel(PsViewerIf.PROJECT), BorderLayout.EAST); //Add Panel
         jvFrame.pack();
         jvFrame.setVisible(true);
+        PsPanel pjip = project.getInfoPanel();
+        pjip.removeAll();
+        //pjip.add(new PsPanel());
     }
 
     public void loadModel(String modelFile) {

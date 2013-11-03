@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
+import jv.object.PsPanel;
 import jv.vecmath.PiVector;
 
 @SuppressWarnings("serial")
@@ -25,6 +26,12 @@ public class StarsNLinks extends MinJV {
 	        app.loadModel(null);
 	    }
 
+	}
+	
+	public StarsNLinks(){
+		PsPanel pjip = this.project.getInfoPanel();
+		pjip.addTitle("Stars 'n' Links");
+		pjip.addLine(1);
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
