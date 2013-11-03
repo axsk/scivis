@@ -21,6 +21,7 @@ public class StarsNLinks extends MinJV{
 	
 	protected Button Star = new Button("Star");
 	protected Button Link = new Button("Link");
+	protected Button fNeighbor = new Button("F-Neighbor");
 
 	/**
 	 * @param args
@@ -47,16 +48,33 @@ public class StarsNLinks extends MinJV{
 		losButtons.add(Link);
 		Link.addActionListener(this);
 		
+		losButtons.add(fNeighbor);
+		fNeighbor.addActionListener(this);
+		
 		pjip.add(losButtons);
 		pjip.addLine(1);
 	}
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if (source == Star){
-			PsDebug.message("I am preforming a stary action!");
+			//PsDebug.message("I am preforming a stary action!");
+			painStar();
 		} else if(source == Link){
-			PsDebug.message("I am preforming a linking action!");
+			//PsDebug.message("I am preforming a linking action!");
+			paintLink();
+		} else if(source == fNeighbor){
+			paintNeighbor();
 		}
+	}
+	
+	public void painStar(){
+		//paint the star
+	}
+	public void paintLink(){
+		//paint the link
+	}
+	public void paintNeighbor(){
+		//paint the neighbor
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
