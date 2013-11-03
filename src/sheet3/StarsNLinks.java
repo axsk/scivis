@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
+import jv.object.PsObject;
 import jv.object.PsPanel;
 import jv.vecmath.PiVector;
 import jvx.geom.PgVertexStar;
@@ -110,7 +111,21 @@ public class StarsNLinks extends MinJV{
         geo.update(null);
 	}
 	public void paintNeighbor(){
-		//paint the neighbor
+		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
+		PiVector[] elements = geo.getElements();
+		for (int i = 0; i < geo.getNumElements(); i++){
+				if(geo.hasTagElement(i, PsObject.IS_SELECTED)){
+					geo.setElementColor(i, Color.GREEN);
+					PiVector neig = geo.getNeighbour(i);
+					for(int k: neig.getEntries()){
+						geo.setElementColor(k, Color.GREEN);
+					}
+				}
+		}
+		
+		geo.showElementColors(true);
+        geo.update(null);
+		
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
