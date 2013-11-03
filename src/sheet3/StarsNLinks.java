@@ -90,11 +90,24 @@ public class StarsNLinks extends MinJV{
         geo.update(null);
 	}
 	public void paintLink(){
-		//paint the link
 		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
 		int[] verts = geo.getMarkedVertices();
 		PgVertexStar star = new PgVertexStar();
-		star.makeVertexStar(geo, verts[0], -1);
+		
+		for(int v:verts){
+			//getting the star
+			star.makeVertexStar(geo, v, -1);
+			int[] link = star.getLink().getEntries();
+			PsDebug.message(link.toString());
+			
+			//painting the star
+	        for (int vec: link) {
+	             geo.setVertexColor(vec, Color.YELLOW);
+	        }
+		}
+		geo.showVertices(true);
+		geo.showVertexColors(true);
+        geo.update(null);
 	}
 	public void paintNeighbor(){
 		//paint the neighbor
