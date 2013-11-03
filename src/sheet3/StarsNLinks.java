@@ -74,7 +74,7 @@ public class StarsNLinks extends MinJV{
 		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
 		int[] verts = geo.getMarkedVertices();
 		PgVertexStar star = new PgVertexStar();
-		star.makeVertexStar(geo, verts[0], verts[0]);
+		star.makeVertexStar(geo, verts[0], -1);
 		int[] stare = star.getElement().getEntries();
 		
 		//painting the star
