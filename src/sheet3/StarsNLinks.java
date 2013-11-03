@@ -18,6 +18,9 @@ import jv.vecmath.PiVector;
 @SuppressWarnings("serial")
 
 public class StarsNLinks extends MinJV{
+	
+	protected Button Star = new Button("Star");
+	protected Button Link = new Button("Link");
 
 	/**
 	 * @param args
@@ -37,19 +40,23 @@ public class StarsNLinks extends MinJV{
 		pjip.addTitle("Stars 'n' Links");
 		
 		Panel losButtons = new Panel(new FlowLayout(FlowLayout.CENTER));
-		
-		Button Star = new Button("Star");
+
 		losButtons.add(Star);
 		Star.addActionListener(this);
-		Button Link = new Button("Link");
+		
 		losButtons.add(Link);
 		Link.addActionListener(this);
 		
 		pjip.add(losButtons);
 		pjip.addLine(1);
 	}
-	public void actionPerformed(ActionEvent arg0) {
-		PsDebug.message("I am preforming an action!");
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if (source == Star){
+			PsDebug.message("I am preforming a stary action!");
+		} else if(source == Link){
+			PsDebug.message("I am preforming a linking action!");
+		}
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
