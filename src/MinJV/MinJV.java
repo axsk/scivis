@@ -2,6 +2,8 @@ package MinJV;
 
 import java.applet.Applet;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import jv.loader.PgLoader;
 import jv.object.PsConfig;
@@ -11,7 +13,7 @@ import jv.project.PjProject;
 import jv.viewer.PvViewer;
 
 @SuppressWarnings("serial")
-public class MinJV extends Applet {
+public class MinJV extends Applet implements ActionListener{
 
     static String DEFAULTGEO = "models/byu/Cow_5804.byu";
 
@@ -55,4 +57,12 @@ public class MinJV extends Applet {
     public static void main(String args[]) {
         new MinJV(null);
     }
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+    
+    
 }

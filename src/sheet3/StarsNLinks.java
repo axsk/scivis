@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import jv.geom.PgElementSet;
 import jv.object.PsDebug;
 import jv.object.PsPanel;
@@ -15,7 +17,7 @@ import jv.vecmath.PiVector;
 
 @SuppressWarnings("serial")
 
-public class StarsNLinks extends MinJV {
+public class StarsNLinks extends MinJV{
 
 	/**
 	 * @param args
@@ -38,13 +40,16 @@ public class StarsNLinks extends MinJV {
 		
 		Button Star = new Button("Star");
 		losButtons.add(Star);
-		//Star.addActionListener(null);
+		Star.addActionListener(this);
 		Button Link = new Button("Link");
 		losButtons.add(Link);
-		//Link.addActionListener(null);
+		Link.addActionListener(this);
 		
 		pjip.add(losButtons);
 		pjip.addLine(1);
+	}
+	public void actionPerformed(ActionEvent arg0) {
+		PsDebug.message("I am preforming an action!");
 	}
 	
 	private PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
