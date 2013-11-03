@@ -14,6 +14,7 @@ import jv.geom.PgElementSet;
 import jv.object.PsDebug;
 import jv.object.PsPanel;
 import jv.vecmath.PiVector;
+import jvx.geom.PgVertexStar;
 
 @SuppressWarnings("serial")
 
@@ -69,9 +70,18 @@ public class StarsNLinks extends MinJV{
 	
 	public void painStar(){
 		//paint the star
+		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
+		int[] verts = geo.getMarkedVertices();
+		PgVertexStar star = new PgVertexStar();
+		star.makeVertexStar(geo, verts[0], 0);
+		PsDebug.message(star.toString());
 	}
 	public void paintLink(){
 		//paint the link
+		PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
+		int[] verts = geo.getMarkedVertices();
+		PgVertexStar star = new PgVertexStar();
+		star.makeVertexStar(geo, verts[0], -1);
 	}
 	public void paintNeighbor(){
 		//paint the neighbor
