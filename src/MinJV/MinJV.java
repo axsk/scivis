@@ -25,10 +25,10 @@ public class MinJV extends Applet implements ActionListener{
 
         jvFrame = new jv.object.PsMainFrame(this, null);
         jvViewer = new PvViewer(this, jvFrame);
-        
+
         jvViewer.addProject(project);
         jvViewer.selectProject(project);
-        
+
         //project.addTitle("Torus Knot");
         //project.add(new PsPanel());
         //project.addLine(1);
@@ -58,11 +58,8 @@ public class MinJV extends Applet implements ActionListener{
         new MinJV(null);
     }
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-    
-    
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+    }
 }
