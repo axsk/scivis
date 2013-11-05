@@ -18,6 +18,7 @@ public class StarsNLinks extends MinJV {
     protected Button bStar = new Button("Star");
     protected Button bLink = new Button("Link");
     protected Button bFNeighbor = new Button("F-Neighbor");
+    protected Button bReset = new Button("Reset Colors");
 
     /**
      * @param args
@@ -29,7 +30,7 @@ public class StarsNLinks extends MinJV {
         } else {
             app.loadModel(null);
         }
-
+        app.resetColors();
     }
 
     public StarsNLinks() {
@@ -47,6 +48,9 @@ public class StarsNLinks extends MinJV {
         losButtons.add(bFNeighbor);
         bFNeighbor.addActionListener(this);
 
+        losButtons.add(bReset);
+        bReset.addActionListener(this);
+
         pjip.add(losButtons);
         pjip.addLine(1);
     }
@@ -59,7 +63,22 @@ public class StarsNLinks extends MinJV {
             paintLink();
         } else if (source == bFNeighbor) {
             paintNeighbor();
+        } else if (source == bReset) {
+            resetColors();
         }
+    }
+
+    public void resetColors() {
+        PgElementSet geo = (PgElementSet) jvViewer.getCurrentProject().getGeometry();
+
+        for (int i = 0; i < geo.getNumElements(); i++)
+            geo.setElementColor(i, Color.CYAN);
+        for (int i = 0; i < geo.getNumVertices(); i++)
+            geo.setVertexColor(i, Color.BLACK);
+
+        geo.showElementColors(true);
+        geo.showVertices(false);
+        geo.update(null);
     }
 
     public void paintStar() {
