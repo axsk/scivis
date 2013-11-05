@@ -37,21 +37,23 @@ public class StarsNLinks extends MinJV {
         PsPanel pjip = this.project.getInfoPanel();
         pjip.addTitle("Stars 'n' Links");
 
-        Panel losButtons = new Panel(new FlowLayout(FlowLayout.CENTER));
+        Panel losButtons1 = new Panel(new FlowLayout(FlowLayout.CENTER));
+        Panel losButtons2 = new Panel(new FlowLayout(FlowLayout.CENTER));
 
-        losButtons.add(bStar);
+        losButtons1.add(bStar);
         bStar.addActionListener(this);
 
-        losButtons.add(bLink);
+        losButtons1.add(bLink);
         bLink.addActionListener(this);
 
-        losButtons.add(bFNeighbor);
+        losButtons1.add(bFNeighbor);
         bFNeighbor.addActionListener(this);
 
-        losButtons.add(bReset);
+        losButtons2.add(bReset);
         bReset.addActionListener(this);
 
-        pjip.add(losButtons);
+        pjip.add(losButtons1);
+        pjip.add(losButtons2);
         pjip.addLine(1);
     }
 
