@@ -12,8 +12,7 @@ import jv.object.PsObject;
 import jv.object.PsPanel;
 import jvx.geom.PgVertexStar;
 
-//@SuppressWarnings("serial")
-
+@SuppressWarnings("serial")
 public class StarsNLinks extends MinJV {
 
     protected Button bStar = new Button("Star");
