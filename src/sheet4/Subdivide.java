@@ -49,27 +49,30 @@ public class Subdivide extends MinJV {
 
         for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
+            m_mask[i].setDefValue(0.2);
+            m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
         }
         steps = new PuInteger("steps", eventWrapper);
+        steps.setDefValue(2);
+        steps.init();
         pjip.add(steps.getInfoPanel());
         this.jvFrame.pack();
 
     }
 
     void subdivision() {
-        
-        
+
         PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
         PdVector[] orig = polyS.getPolygonVertices(0);
-        
+
         int dim = orig[0].getSize();
-        PdVector temp = new PdVector();
-        
+        PdVector temp = new PdVector(dim);
+
         PdVector[] curr = orig;
 
-        for (int n = 0; n < 1; n++) {
-            
+        for (int n = 0; n < steps.getValue(); n++) {
+
             PdVector[] div = new PdVector[curr.length * 2];
             //division step
             for (int i = 0; i < curr.length; i++) {
@@ -81,12 +84,12 @@ public class Subdivide extends MinJV {
 
             //averaging step
             curr = new PdVector[div.length];
-            for (int i=0; i< div.length;i++){
+            for (int i = 0; i < div.length; i++) {
                 curr[i] = new PdVector(dim);
             }
             for (int i = 0; i < div.length; i++) {
                 for (int j = 0; j < NUMWEIGHTS; j++) {
-                    temp.multScalar(div[(i + j - 3 + div.length) % div.length],m_mask[i].getValue());
+                    temp.multScalar(div[(i + j - 3 + div.length) % div.length], m_mask[j].getValue());
                     curr[i].add(temp);
                 }
             }
