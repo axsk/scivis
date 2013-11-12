@@ -24,6 +24,7 @@ public class Subdivide extends MinJV {
     Button bNorm = new Button("Normalize");
     PgPolygonSet original;
     PdVector[] orig;
+    boolean first = true;
 
     PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
@@ -69,14 +70,6 @@ public class Subdivide extends MinJV {
         pjip.add(steps.getInfoPanel());
         this.jvFrame.pack();
         
-        
-        //copying original Polygon to orig
-        PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
-        PdVector[] curr = polyS.getPolygonVertices(0);
-        orig = new PdVector[curr.length];
-        for (int i = 0; i < curr.length; i++) {
-           	orig[i] = (PdVector) curr[i].clone();
-        }
 
     }
 
@@ -87,14 +80,21 @@ public class Subdivide extends MinJV {
 
         int dim = curr[0].getSize();
         PdVector temp = new PdVector(dim);
-        orig = new PdVector[curr.length];
+        
+        if (first){
+        	first = false;
+            //copying original Polygon to orig
+            orig = new PdVector[curr.length];
+            for (int i = 0; i < curr.length; i++) {
+               	orig[i] = (PdVector) curr[i].clone();
+            }
+        }
 
         for (int n = 0; n < steps.getValue(); n++) {
 
             PdVector[] div = new PdVector[curr.length * 2];
             //division step
             for (int i = 0; i < curr.length; i++) {
-            	orig[i] = (PdVector) curr[i].clone();
                 div[2 * i] = (PdVector) curr[i].clone();
                 div[2 * i + 1] = (PdVector) curr[i].clone();
                 div[2 * i + 1].add(curr[(i + 1) % curr.length]);
