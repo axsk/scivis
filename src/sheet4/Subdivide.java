@@ -23,9 +23,7 @@ public class Subdivide extends MinJV {
     Button bReset = new Button("Reset");
     Button bNorm = new Button("Normalize");
     PgPolygonSet original;
-    public void setOriginal(PgPolygonSet origin){
-    	this.original = origin;
-    }
+    PdVector[] orig;
 
     PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
@@ -36,7 +34,7 @@ public class Subdivide extends MinJV {
     }
 
     public Subdivide() {
-    	setOriginal((PgPolygonSet) this.project.getGeometry());
+    	//setOriginal((PgPolygonSet) this.project.getGeometry());
     	//original.copyPolygonSet((PgPolygonSet) this.project.getGeometry());
     	
         PsPanel pjip = this.project.getInfoPanel();
@@ -65,11 +63,20 @@ public class Subdivide extends MinJV {
         m_mask[NUMWEIGHTS/2].setValue(1);
         steps = new PuInteger("steps", eventWrapper);
         //steps.setBounds(0, 6);
-        steps.setDefBounds(1, 6, 1, 1);
+        steps.setDefBounds(2, 6, 1, 1);
         steps.setDefValue(1);
         steps.init();
         pjip.add(steps.getInfoPanel());
         this.jvFrame.pack();
+        
+        
+        //copying original Polygon to orig
+        PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
+        PdVector[] curr = polyS.getPolygonVertices(0);
+        orig = new PdVector[curr.length];
+        for (int i = 0; i < curr.length; i++) {
+           	orig[i] = (PdVector) curr[i].clone();
+        }
 
     }
 
@@ -80,12 +87,14 @@ public class Subdivide extends MinJV {
 
         int dim = curr[0].getSize();
         PdVector temp = new PdVector(dim);
+        orig = new PdVector[curr.length];
 
         for (int n = 0; n < steps.getValue(); n++) {
 
             PdVector[] div = new PdVector[curr.length * 2];
             //division step
             for (int i = 0; i < curr.length; i++) {
+            	orig[i] = (PdVector) curr[i].clone();
                 div[2 * i] = (PdVector) curr[i].clone();
                 div[2 * i + 1] = (PdVector) curr[i].clone();
                 div[2 * i + 1].add(curr[(i + 1) % curr.length]);
@@ -120,8 +129,14 @@ public class Subdivide extends MinJV {
         Object source = event.getSource();
         if (source == bReset) {
         	PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
-        	polyS=original;
-        	polyS.update(null);
+        	PiVector indexset = new PiVector(orig.length);
+            for (int i = 0; i<orig.length;i++){
+                indexset.setEntry(i, i);
+            }
+            polyS.setPolygon(0,indexset);
+            polyS.setNumVertices(orig.length);
+            polyS.setPolygonVertices(0, orig);
+            polyS.update(null);
         } else if (source == bSubD) {
             subdivision();
         } else if (source == bNorm) {
