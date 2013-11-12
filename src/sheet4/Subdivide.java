@@ -21,6 +21,8 @@ public class Subdivide extends MinJV {
     static int NUMWEIGHTS = 7;
     Button bSubD = new Button("Subdivide");
     Button bReset = new Button("Reset");
+    //PgPolygonSet original;
+    PdVector[] orig;
 
     PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
@@ -31,6 +33,8 @@ public class Subdivide extends MinJV {
     }
 
     public Subdivide() {
+    	//original  = ((PgPolygonSet) this.project.getGeometry());
+    	
         PsPanel pjip = this.project.getInfoPanel();
         pjip.addTitle("Subdividing");
 
@@ -46,14 +50,16 @@ public class Subdivide extends MinJV {
 
         for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
-            m_mask[i].setBounds(-1d,1d); // TODO: fix
+            //m_mask[i].setBounds(-1d,1d); // TODO: fix
+            m_mask[i].setDefBounds(0, 10, 0.1, 1);
             m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
         }
         m_mask[NUMWEIGHTS/2].setValue(1);
         steps = new PuInteger("steps", eventWrapper);
-        steps.setBounds(0, 6);
+        //steps.setBounds(0, 6);
+        steps.setDefBounds(1, 6, 1, 1);
         steps.setDefValue(1);
         steps.init();
         pjip.add(steps.getInfoPanel());
@@ -64,7 +70,7 @@ public class Subdivide extends MinJV {
     void subdivision() {
 
         PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
-        PdVector[] orig = polyS.getPolygonVertices(0);
+        orig = polyS.getPolygonVertices(0);
 
         int dim = orig[0].getSize();
         PdVector temp = new PdVector(dim);
@@ -109,7 +115,15 @@ public class Subdivide extends MinJV {
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
         if (source == bReset) {
-            // TODO: implement reset
+        	PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
+        	PiVector indexset = new PiVector(orig.length);
+            for (int i = 0; i<orig.length;i++){
+                indexset.setEntry(i, i);
+            }
+        	polyS.setPolygon(0,indexset);
+            polyS.setNumVertices(orig.length);
+            polyS.setPolygonVertices(0, orig);
+            polyS.update(null);
         } else if (source == bSubD) {
             subdivision();
         } else {
