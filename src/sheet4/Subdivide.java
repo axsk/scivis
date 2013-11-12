@@ -10,7 +10,6 @@ import jv.geom.PgPolygonSet;
 import jv.number.PuDouble;
 import jv.number.PuInteger;
 import jv.object.PsConfig;
-import jv.object.PsDebug;
 import jv.object.PsPanel;
 import jv.object.PsUpdateIf;
 import jv.vecmath.PdVector;
@@ -47,7 +46,7 @@ public class Subdivide extends MinJV {
 
         for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
-            m_mask[i].setBounds(-1d,1d);
+            m_mask[i].setBounds(-1d,1d); // TODO: fix
             m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
@@ -90,7 +89,7 @@ public class Subdivide extends MinJV {
             }
             for (int i = 0; i < div.length; i++) {
                 for (int j = 0; j < NUMWEIGHTS; j++) {
-                    temp.multScalar(div[(i + j - 3 + div.length) % div.length], m_mask[j].getValue());
+                    temp.multScalar(div[(i + j - NUMWEIGHTS/2 + div.length) % div.length], m_mask[j].getValue());
                     curr[i].add(temp);
                 }
             }
@@ -98,7 +97,7 @@ public class Subdivide extends MinJV {
         
         PiVector indexset = new PiVector(curr.length);
         for (int i = 0; i<curr.length;i++){
-            indexset.setEntry(i, i%curr.length);
+            indexset.setEntry(i, i);
         }
         polyS.setPolygon(0,indexset);
         polyS.setNumVertices(curr.length);
@@ -110,11 +109,11 @@ public class Subdivide extends MinJV {
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
         if (source == bReset) {
-            // reset 
+            // TODO: implement reset
         } else if (source == bSubD) {
             subdivision();
         } else {
-            PsDebug.message(event.toString());
+            // this is called if some changes are made to the sliders
         }
 
     }
