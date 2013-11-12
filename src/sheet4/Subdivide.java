@@ -22,8 +22,10 @@ public class Subdivide extends MinJV {
     Button bSubD = new Button("Subdivide");
     Button bReset = new Button("Reset");
     Button bNorm = new Button("Normalize");
-    //PgPolygonSet original;
-    PdVector[] orig;
+    PgPolygonSet original;
+    public void setOriginal(PgPolygonSet origin){
+    	this.original = origin;
+    }
 
     PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
@@ -34,7 +36,8 @@ public class Subdivide extends MinJV {
     }
 
     public Subdivide() {
-    	//original  = ((PgPolygonSet) this.project.getGeometry());
+    	setOriginal((PgPolygonSet) this.project.getGeometry());
+    	//original.copyPolygonSet((PgPolygonSet) this.project.getGeometry());
     	
         PsPanel pjip = this.project.getInfoPanel();
         pjip.addTitle("Subdividing");
@@ -117,14 +120,8 @@ public class Subdivide extends MinJV {
         Object source = event.getSource();
         if (source == bReset) {
         	PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
-        	PiVector indexset = new PiVector(orig.length);
-            for (int i = 0; i<orig.length;i++){
-                indexset.setEntry(i, i);
-            }
-        	polyS.setPolygon(0,indexset);
-            polyS.setNumVertices(orig.length);
-            polyS.setPolygonVertices(0, orig);
-            polyS.update(null);
+        	polyS=original;
+        	polyS.update(null);
         } else if (source == bSubD) {
             subdivision();
         } else if (source == bNorm) {
