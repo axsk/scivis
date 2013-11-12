@@ -14,6 +14,7 @@ import jv.object.PsDebug;
 import jv.object.PsPanel;
 import jv.object.PsUpdateIf;
 import jv.vecmath.PdVector;
+import jv.vecmath.PiVector;
 
 @SuppressWarnings("serial")
 public class Subdivide extends MinJV {
@@ -25,9 +26,6 @@ public class Subdivide extends MinJV {
     PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
         Subdivide app = new Subdivide();
         app.loadModel(PsConfig.getCodeBase() + "models/curves/coloredCurve.jvx");
@@ -49,12 +47,15 @@ public class Subdivide extends MinJV {
 
         for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
-            m_mask[i].setDefValue(0.2);
+            m_mask[i].setBounds(-1d,1d);
+            m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
         }
+        m_mask[NUMWEIGHTS/2].setValue(1);
         steps = new PuInteger("steps", eventWrapper);
-        steps.setDefValue(2);
+        steps.setBounds(0, 6);
+        steps.setDefValue(1);
         steps.init();
         pjip.add(steps.getInfoPanel());
         this.jvFrame.pack();
@@ -76,8 +77,8 @@ public class Subdivide extends MinJV {
             PdVector[] div = new PdVector[curr.length * 2];
             //division step
             for (int i = 0; i < curr.length; i++) {
-                div[2 * i] = curr[i];
-                div[2 * i + 1] = curr[i];
+                div[2 * i] = (PdVector) curr[i].clone();
+                div[2 * i + 1] = (PdVector) curr[i].clone();
                 div[2 * i + 1].add(curr[(i + 1) % curr.length]);
                 div[2 * i + 1].multScalar(0.5);
             }
@@ -94,6 +95,15 @@ public class Subdivide extends MinJV {
                 }
             }
         }
+        
+        PiVector indexset = new PiVector(curr.length);
+        for (int i = 0; i<curr.length;i++){
+            indexset.setEntry(i, i%curr.length);
+        }
+        polyS.setPolygon(0,indexset);
+        polyS.setNumVertices(curr.length);
+        polyS.setPolygonVertices(0, curr);
+        polyS.update(null);
     }
 
     @Override
@@ -114,7 +124,7 @@ public class Subdivide extends MinJV {
     class JavaViewSucksSoMuchItMakesThisNecesarry implements PsUpdateIf {
         // unfortunately javaview doesnt support javas event management system,
         // but relies on its own update interface, 
-        // so we have to implement this wrapper to 
+        // so we have to implement this wrapper 
         // think about moving this to minjv
 
         @Override
