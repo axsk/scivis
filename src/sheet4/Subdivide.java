@@ -21,6 +21,7 @@ public class Subdivide extends MinJV {
     static int NUMWEIGHTS = 7;
     Button bSubD = new Button("Subdivide");
     Button bReset = new Button("Reset");
+    Button bNorm = new Button("Normalize");
     //PgPolygonSet original;
     PdVector[] orig;
 
@@ -42,8 +43,10 @@ public class Subdivide extends MinJV {
 
         losButtons.add(bReset);
         losButtons.add(bSubD);
+        losButtons.add(bNorm);
         bReset.addActionListener(this);
         bSubD.addActionListener(this);
+        bNorm.addActionListener(this);
 
         pjip.add(losButtons);
         pjip.addLine(1);
@@ -126,6 +129,10 @@ public class Subdivide extends MinJV {
             polyS.update(null);
         } else if (source == bSubD) {
             subdivision();
+        } else if (source == bNorm) {
+            double factor = 0d;            
+            for (int i = 0 ; i<NUMWEIGHTS; i++) factor+=m_mask[i].getValue();            
+            for (int i = 0 ; i<NUMWEIGHTS; i++) m_mask[i].setValue(m_mask[i].getValue()/factor);            
         } else {
             // this is called if some changes are made to the sliders
         }
