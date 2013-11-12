@@ -5,20 +5,24 @@ import java.awt.Button;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
+import jv.geom.PgPolygonSet;
 
 import jv.number.PuDouble;
 import jv.number.PuInteger;
+import jv.object.PsConfig;
 import jv.object.PsDebug;
 import jv.object.PsPanel;
 import jv.object.PsUpdateIf;
+import jv.vecmath.PdVector;
 
 @SuppressWarnings("serial")
 public class Subdivide extends MinJV {
 
+    static int NUMWEIGHTS = 7;
     Button bSubD = new Button("Subdivide");
     Button bReset = new Button("Reset");
 
-    PuDouble[] m_mask = new PuDouble[7];
+    PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
     PuInteger steps;
 
     /**
@@ -26,12 +30,7 @@ public class Subdivide extends MinJV {
      */
     public static void main(String[] args) {
         Subdivide app = new Subdivide();
-        if (args.length != 0) {
-            app.loadModel(args[0]);
-        } else {
-            app.loadModel(null);
-        }
-        //app.reset();
+        app.loadModel(PsConfig.getCodeBase() + "models/curves/coloredCurve.jvx");
     }
 
     public Subdivide() {
@@ -43,11 +42,12 @@ public class Subdivide extends MinJV {
         losButtons.add(bReset);
         losButtons.add(bSubD);
         bReset.addActionListener(this);
+        bSubD.addActionListener(this);
 
         pjip.add(losButtons);
         pjip.addLine(1);
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
             pjip.add(m_mask[i].getInfoPanel());
         }
@@ -57,11 +57,49 @@ public class Subdivide extends MinJV {
 
     }
 
+    void subdivision() {
+        
+        
+        PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
+        PdVector[] orig = polyS.getPolygonVertices(0);
+        
+        int dim = orig[0].getSize();
+        PdVector temp = new PdVector();
+        
+        PdVector[] curr = orig;
+
+        for (int n = 0; n < 1; n++) {
+            
+            PdVector[] div = new PdVector[curr.length * 2];
+            //division step
+            for (int i = 0; i < curr.length; i++) {
+                div[2 * i] = curr[i];
+                div[2 * i + 1] = curr[i];
+                div[2 * i + 1].add(curr[(i + 1) % curr.length]);
+                div[2 * i + 1].multScalar(0.5);
+            }
+
+            //averaging step
+            curr = new PdVector[div.length];
+            for (int i=0; i< div.length;i++){
+                curr[i] = new PdVector(dim);
+            }
+            for (int i = 0; i < div.length; i++) {
+                for (int j = 0; j < NUMWEIGHTS; j++) {
+                    temp.multScalar(div[(i + j - 3 + div.length) % div.length],m_mask[i].getValue());
+                    curr[i].add(temp);
+                }
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
         if (source == bReset) {
             // reset 
+        } else if (source == bSubD) {
+            subdivision();
         } else {
             PsDebug.message(event.toString());
         }
