@@ -73,12 +73,10 @@ public class Subdivide extends MinJV {
     void subdivision() {
 
         PgPolygonSet polyS = ((PgPolygonSet) this.project.getGeometry());
-        orig = polyS.getPolygonVertices(0);
+        PdVector[] curr = polyS.getPolygonVertices(0);
 
-        int dim = orig[0].getSize();
+        int dim = curr[0].getSize();
         PdVector temp = new PdVector(dim);
-
-        PdVector[] curr = orig;
 
         for (int n = 0; n < steps.getValue(); n++) {
 
