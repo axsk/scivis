@@ -32,7 +32,8 @@ public class Subdivide extends MinJV {
     public static void main(String[] args) {
         Subdivide app = new Subdivide();
         app.loadModel(PsConfig.getCodeBase() + "models/curves/coloredCurve.jvx");
-    }
+        //app.loadModel(PsConfig.getCodeBase() + "coloredCurve.jvx");
+        }
 
     public Subdivide() {
     	//setOriginal((PgPolygonSet) this.project.getGeometry());
@@ -56,7 +57,7 @@ public class Subdivide extends MinJV {
         for (int i = 0; i < NUMWEIGHTS; i++) {
             m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
             //m_mask[i].setBounds(-1d,1d); // TODO: fix
-            m_mask[i].setDefBounds(0, 10, 0.1, 1);
+            m_mask[i].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
@@ -137,6 +138,7 @@ public class Subdivide extends MinJV {
             polyS.setNumVertices(orig.length);
             polyS.setPolygonVertices(0, orig);
             polyS.update(null);
+            first=true;
         } else if (source == bSubD) {
             subdivision();
         } else if (source == bNorm) {
