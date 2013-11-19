@@ -1,11 +1,13 @@
 package sheet5;
 
 import MinJV.*;
+import java.lang.Math;
 import java.awt.Button;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
-import jv.geom.PgPolygonSet;
+import jv.number.PuComplex;
+import jv.geom.PgElementSet;
 
 import jv.number.PuDouble;
 import jv.number.PuInteger;
@@ -45,24 +47,24 @@ public class Transform extends MinJV {
 
         pjip.addTitle("Scaling");
 
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i < 3; i++) {
             m_mask[i] = new PuDouble(Titel[i], eventWrapper);
-            m_mask[i].setDefBounds(-5, 5, 0.01, 1);
-            m_mask[i].setDefValue(0);
+            m_mask[i].setDefBounds(-5, 5, 0.1, 1);
+            m_mask[i].setDefValue(1);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
         }
 
         pjip.addLine(1);
 
-        pjip.addTitle("Scaling");
+        pjip.addTitle("Translation");
 
-        for (int i = 2; i < 4; i++) {
-            m_mask[i+2] = new PuDouble(Titel[i-1], eventWrapper);
-            m_mask[i+2].setDefBounds(-5, 5, 0.01, 1);
-            m_mask[i+2].setDefValue(0);
-            m_mask[i+2].init();
-            pjip.add(m_mask[i+2].getInfoPanel());
+        for (int i = 3; i < 5; i++) {
+            m_mask[i] = new PuDouble(Titel[i-2], eventWrapper);
+            m_mask[i].setDefBounds(-5, 5, 0.1, 1);
+            m_mask[i].setDefValue(0);
+            m_mask[i].init();
+            pjip.add(m_mask[i].getInfoPanel());
         }
 
         pjip.addLine(1);
@@ -80,16 +82,45 @@ public class Transform extends MinJV {
 
     }
 
-    void transforming(){
-        //Transforming stuff
-        PsDebug.message("Hi :)");
+    void transforming(PuComplex op, double x, double y, double sx, double sy) {
+        PgElementSet geom = (PgElementSet) this.project.getGeometry();
+        PdVector[] v = geom.getVertexTextures(); // RW-access!
+        for(int i = 0; i < v.length; i++) {
+            PuComplex p = new PuComplex(v[i].m_data[0], v[i].m_data[1]);
+            p.mult(op);
+            v[i].m_data[0] = sx * p.re() + x;
+            v[i].m_data[1] = sy * p.im() + y;
+        }
+        geom.update(null);
     }
 
 
     @Override
         public void actionPerformed(ActionEvent event) {
-            transforming();
+            PuComplex op = new PuComplex(1, 0);
+            op.div(op.abs()); // Normalize
 
+            Object source = event.getSource();
+            double value = ((PuDouble) source).getValue();
+            if(source == m_mask[0]) {
+                transforming(op, 0, 0, value, value);
+            }
+            if(source == m_mask[1]) {
+                transforming(op, 0, 0, value, 1);
+            }
+            if(source == m_mask[2]) {
+                transforming(op, 0, 0, 1, value);
+            }
+            if(source == m_mask[3]) {
+                transforming(op, value, 0, 1, 1);
+            }
+            if(source == m_mask[4]) {
+                transforming(op, 0, value, 1, 1);
+            }
+            if(source == m_mask[5]) {
+                op.set(Math.cos(value), Math.sin(value));
+                transforming(op, 0, 0, 1, 1);
+            }
         }
 
     JavaViewSucksSoMuchItMakesThisNecesarry eventWrapper = new JavaViewSucksSoMuchItMakesThisNecesarry();
