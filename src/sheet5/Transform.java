@@ -25,6 +25,7 @@ public class Transform extends MinJV {
     PuDouble[] m_mask = new PuDouble[6];
     PuInteger steps;
     PdVector[] orig = null;
+    Button bReset = new Button("Reset");
 
     public static void main(String[] args) {
         Transform app = new Transform();
@@ -78,9 +79,12 @@ public class Transform extends MinJV {
         m_mask[5].init();
         pjip.add(m_mask[5].getInfoPanel());
 
+        pjip.addLine(1);
+
+        bReset.addActionListener(this);
+        pjip.add(bReset);
+
         this.jvFrame.pack();
-
-
     }
 
     void transform(double rot, double x, double y, double sx, double sy) {
@@ -112,6 +116,9 @@ public class Transform extends MinJV {
 
     @Override
         public void actionPerformed(ActionEvent event) {
+            if(event.getSource() == bReset)
+                for(int i = 0; i < 6; i++)
+                    m_mask[i].init();
             double[] v = new double[6];
             for(int i = 0; i < 6; i++)
                 v[i] = m_mask[i].getValue();
