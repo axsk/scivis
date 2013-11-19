@@ -31,7 +31,7 @@ public class Transform extends MinJV {
 
     public static void main(String[] args) {
     	Transform app = new Transform();
-        //app.loadModel(PsConfig.getCodeBase() + "coloredCurve.jvx");
+        app.loadModel(PsConfig.getCodeBase() + "example/perfect_earth.jvx");
         }
 
     public Transform() {
