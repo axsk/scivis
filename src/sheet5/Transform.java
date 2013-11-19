@@ -86,19 +86,24 @@ public class Transform extends MinJV {
     void transform(double rot, double x, double y, double sx, double sy) {
         PgElementSet geom = (PgElementSet) this.project.getGeometry();
         PdVector[] v = geom.getVertexTextures(); // RW-access!
+        PuComplex op = null;
+
         if(orig == null)
             orig = PdVector.copyNew(v);
-        PuComplex op = null;
+
         if(rot != 0)
             op = new PuComplex(Math.cos(rot), Math.sin(rot));
+
         for(int i = 0; i < v.length; i++) {
             PuComplex p = new PuComplex(orig[i].m_data[0], orig[i].m_data[1]);
             PuComplex offset = new PuComplex(.5, .5);
+
             if(op != null) {
                 p.sub(offset);
                 p.mult(op);
                 p.add(offset);
             }
+
             v[i].m_data[0] = sx * p.re() + x;
             v[i].m_data[1] = sy * p.im() + y;
         }
@@ -107,8 +112,6 @@ public class Transform extends MinJV {
 
     @Override
         public void actionPerformed(ActionEvent event) {
-            Object source = event.getSource();
-            double value = ((PuDouble) source).getValue();
             double[] v = new double[6];
             for(int i = 0; i < 6; i++)
                 v[i] = m_mask[i].getValue();
