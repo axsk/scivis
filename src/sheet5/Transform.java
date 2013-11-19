@@ -51,7 +51,7 @@ public class Transform extends MinJV {
 
         for (int i = 0; i < 3; i++) {
             m_mask[i] = new PuDouble(Titel[i], eventWrapper);
-            m_mask[i].setDefBounds(-5, 5, 0.1, 1);
+            m_mask[i].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i].setDefValue(1);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
