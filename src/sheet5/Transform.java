@@ -83,47 +83,37 @@ public class Transform extends MinJV {
 
     }
 
-    void transforming(PuComplex op, double x, double y, double sx, double sy) {
+    void transform(double rot, double x, double y, double sx, double sy) {
         PgElementSet geom = (PgElementSet) this.project.getGeometry();
         PdVector[] v = geom.getVertexTextures(); // RW-access!
         if(orig == null)
             orig = PdVector.copyNew(v);
+        PuComplex op = null;
+        if(rot != 0)
+            op = new PuComplex(Math.cos(rot), Math.sin(rot));
         for(int i = 0; i < v.length; i++) {
             PuComplex p = new PuComplex(orig[i].m_data[0], orig[i].m_data[1]);
-            p.mult(op);
+            PuComplex offset = new PuComplex(.5, .5);
+            if(op != null) {
+                p.sub(offset);
+                p.mult(op);
+                p.add(offset);
+            }
             v[i].m_data[0] = sx * p.re() + x;
             v[i].m_data[1] = sy * p.im() + y;
         }
-        geom.update(null);
     }
 
 
     @Override
         public void actionPerformed(ActionEvent event) {
-            PuComplex op = new PuComplex(1, 0);
-            op.div(op.abs()); // Normalize
-
             Object source = event.getSource();
             double value = ((PuDouble) source).getValue();
-            if(source == m_mask[0]) {
-                transforming(op, 0, 0, value, value);
-            }
-            if(source == m_mask[1]) {
-                transforming(op, 0, 0, value, 1);
-            }
-            if(source == m_mask[2]) {
-                transforming(op, 0, 0, 1, value);
-            }
-            if(source == m_mask[3]) {
-                transforming(op, value, 0, 1, 1);
-            }
-            if(source == m_mask[4]) {
-                transforming(op, 0, value, 1, 1);
-            }
-            if(source == m_mask[5]) {
-                op.set(Math.cos(value), Math.sin(value));
-                transforming(op, 0, 0, 1, 1);
-            }
+            double[] v = new double[6];
+            for(int i = 0; i < 6; i++)
+                v[i] = m_mask[i].getValue();
+            transform(v[5], v[3], v[4], v[0] * v[1], v[0] * v[2]);
+            this.project.getGeometry().update(null);
         }
 
     JavaViewSucksSoMuchItMakesThisNecesarry eventWrapper = new JavaViewSucksSoMuchItMakesThisNecesarry();
