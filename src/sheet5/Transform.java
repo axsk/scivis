@@ -3,8 +3,6 @@ package sheet5;
 import MinJV.*;
 import java.lang.Math;
 import java.awt.Button;
-import java.awt.FlowLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import jv.number.PuComplex;
 import jv.geom.PgElementSet;
@@ -15,9 +13,6 @@ import jv.object.PsConfig;
 import jv.object.PsPanel;
 import jv.object.PsUpdateIf;
 import jv.vecmath.PdVector;
-import jv.vecmath.PiVector;
-import jv.project.PgJvxSrc;
-import jv.object.PsDebug;
 
 @SuppressWarnings("serial")
 public class Transform extends MinJV {
