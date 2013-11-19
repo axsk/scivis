@@ -14,24 +14,20 @@ import jv.object.PsPanel;
 import jv.object.PsUpdateIf;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
+import jv.project.PgJvxSrc;
 
 @SuppressWarnings("serial")
 public class Transform extends MinJV {
 
-    static int NUMWEIGHTS = 7;
-    Button bSubD = new Button("Subdivide");
-    Button bReset = new Button("Reset");
-    Button bNorm = new Button("Normalize");
-    PgPolygonSet original;
-    PdVector[] orig;
-    boolean first = true;
-
-    PuDouble[] m_mask = new PuDouble[NUMWEIGHTS];
+    PuDouble[] m_mask = new PuDouble[6];
     PuInteger steps;
 
     public static void main(String[] args) {
     	Transform app = new Transform();
         app.loadModel(PsConfig.getCodeBase() + "example/perfect_earth.jvx");
+        //app.project.getGeometry().getMaterialPanel().
+        //PgJvxSrc setting = (PgJvxSrc) app.project.getGeometry();
+        //setting.isShowingBnd(0);
         }
 
     public Transform() {
@@ -39,24 +35,45 @@ public class Transform extends MinJV {
     	//original.copyPolygonSet((PgPolygonSet) this.project.getGeometry());
     	
         PsPanel pjip = this.project.getInfoPanel();
-        pjip.addTitle("Transforming");
 
+        String[] Titel = new String[6];
+        Titel[0]="uniform";
+        Titel[1]="x-Direction";
+        Titel[2]="y-Direction";
+        Titel[3]="around (.5,.5)";
 
-        for (int i = 0; i < NUMWEIGHTS; i++) {
-            m_mask[i] = new PuDouble("r" + Integer.toString(i - 3), eventWrapper);
-            //m_mask[i].setBounds(-1d,1d); // TODO: fix
+        pjip.addTitle("Scaling");
+        
+        for (int i = 0; i <= 2; i++) {
+            m_mask[i] = new PuDouble(Titel[i]);
             m_mask[i].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
         }
-        m_mask[NUMWEIGHTS/2].setValue(1);
-        steps = new PuInteger("steps", eventWrapper);
-        //steps.setBounds(0, 6);
-        steps.setDefBounds(2, 6, 1, 1);
-        steps.setDefValue(1);
-        steps.init();
-        pjip.add(steps.getInfoPanel());
+        
+        pjip.addLine(1);
+        
+        pjip.addTitle("Scaling");
+        
+        for (int i = 2; i < 4; i++) {
+            m_mask[i+2] = new PuDouble(Titel[i-1]);
+            m_mask[i+2].setDefBounds(-5, 5, 0.01, 1);
+            m_mask[i+2].setDefValue(0);
+            m_mask[i+2].init();
+            pjip.add(m_mask[i+2].getInfoPanel());
+        }
+        
+        pjip.addLine(1);
+        
+        pjip.addTitle("Rotation");
+        
+        m_mask[5] = new PuDouble(Titel[3]);
+        m_mask[5].setDefBounds(-5, 5, 0.01, 1);
+        m_mask[5].setDefValue(0);
+        m_mask[5].init();
+        pjip.add(m_mask[5].getInfoPanel());
+        
         this.jvFrame.pack();
         
 
