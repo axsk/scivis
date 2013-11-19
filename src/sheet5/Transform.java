@@ -15,6 +15,7 @@ import jv.object.PsUpdateIf;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
 import jv.project.PgJvxSrc;
+import jv.object.PsDebug;
 
 @SuppressWarnings("serial")
 public class Transform extends MinJV {
@@ -45,7 +46,7 @@ public class Transform extends MinJV {
         pjip.addTitle("Scaling");
         
         for (int i = 0; i <= 2; i++) {
-            m_mask[i] = new PuDouble(Titel[i]);
+            m_mask[i] = new PuDouble(Titel[i], eventWrapper);
             m_mask[i].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i].setDefValue(0);
             m_mask[i].init();
@@ -57,7 +58,7 @@ public class Transform extends MinJV {
         pjip.addTitle("Scaling");
         
         for (int i = 2; i < 4; i++) {
-            m_mask[i+2] = new PuDouble(Titel[i-1]);
+            m_mask[i+2] = new PuDouble(Titel[i-1], eventWrapper);
             m_mask[i+2].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i+2].setDefValue(0);
             m_mask[i+2].init();
@@ -68,7 +69,7 @@ public class Transform extends MinJV {
         
         pjip.addTitle("Rotation");
         
-        m_mask[5] = new PuDouble(Titel[3]);
+        m_mask[5] = new PuDouble(Titel[3], eventWrapper);
         m_mask[5].setDefBounds(-5, 5, 0.01, 1);
         m_mask[5].setDefValue(0);
         m_mask[5].init();
@@ -81,6 +82,7 @@ public class Transform extends MinJV {
     
     void transforming(){
     	//Transforming stuff
+        PsDebug.message("Hi :)");
     }
 
 
