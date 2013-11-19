@@ -24,6 +24,7 @@ public class Transform extends MinJV {
 
     PuDouble[] m_mask = new PuDouble[6];
     PuInteger steps;
+    PdVector[] orig = null;
 
     public static void main(String[] args) {
         Transform app = new Transform();
@@ -61,7 +62,7 @@ public class Transform extends MinJV {
 
         for (int i = 3; i < 5; i++) {
             m_mask[i] = new PuDouble(Titel[i-2], eventWrapper);
-            m_mask[i].setDefBounds(-5, 5, 0.1, 1);
+            m_mask[i].setDefBounds(-5, 5, 0.01, 1);
             m_mask[i].setDefValue(0);
             m_mask[i].init();
             pjip.add(m_mask[i].getInfoPanel());
@@ -85,8 +86,10 @@ public class Transform extends MinJV {
     void transforming(PuComplex op, double x, double y, double sx, double sy) {
         PgElementSet geom = (PgElementSet) this.project.getGeometry();
         PdVector[] v = geom.getVertexTextures(); // RW-access!
+        if(orig == null)
+            orig = PdVector.copyNew(v);
         for(int i = 0; i < v.length; i++) {
-            PuComplex p = new PuComplex(v[i].m_data[0], v[i].m_data[1]);
+            PuComplex p = new PuComplex(orig[i].m_data[0], orig[i].m_data[1]);
             p.mult(op);
             v[i].m_data[0] = sx * p.re() + x;
             v[i].m_data[1] = sy * p.im() + y;
