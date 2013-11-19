@@ -24,7 +24,8 @@ public class Transform extends MinJV {
 
     public static void main(String[] args) {
         Transform app = new Transform();
-        app.loadModel(PsConfig.getCodeBase() + "example/perfect_earth.jvx");
+        //app.loadModel(PsConfig.getCodeBase() + "example/perfect_earth.jvx");
+        app.loadModel("./sheet5/perfect_earth.jvx");
         ((PgElementSet) app.project.getGeometry()).showEdges(false);
         ((PgElementSet) app.project.getGeometry()).update(null);
     }
