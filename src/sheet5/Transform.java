@@ -23,6 +23,9 @@ public class Transform extends MinJV {
     Button bReset = new Button("Reset");
 
     public static void main(String[] args) {
+    	
+    	
+    	
         Transform app = new Transform();
         app.loadModel("../SciVis/sheet5/perfect_earth.jvx");
         //app.loadModel("./sheet5/perfect_earth.jvx");
