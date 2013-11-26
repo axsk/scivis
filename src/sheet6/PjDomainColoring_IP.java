@@ -1,4 +1,4 @@
-package sh6_domaincoloring_empty;
+package sheet6;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package sh6_domaincoloring_empty;
+package sheet6;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -102,7 +102,9 @@ public class PjDomainColoring extends PjProject {
 				 * rectangle in complex representation, use z.
 				 */
 				// ...
-	
+                                
+                                z.re=(DOMAIN_BOUNDS[2]-DOMAIN_BOUNDS[0])/RES_X*i+DOMAIN_BOUNDS[0];
+                                z.im=(DOMAIN_BOUNDS[3]-DOMAIN_BOUNDS[1])/RES_Y*j+DOMAIN_BOUNDS[1];
 
 				// Evaluates specified function at point z and compute color.
 				fz = m_function.eval(z);
@@ -114,6 +116,8 @@ public class PjDomainColoring extends PjProject {
 				 * pixel_buffer and assign the computed color to this entry.
 				 */
 				// ...
+                                
+                                pixel_buffer[j*RES_X+i]=col;
 				
 			}
 		}
